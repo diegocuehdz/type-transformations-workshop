@@ -14,7 +14,10 @@ type Fruit =
       color: "orange";
     };
 
-type TransformedFruit = unknown;
+type FruitNames = Fruit["name"];
+type TransformedFruit = {
+  [F in Fruit as F["name"]]: `${F["name"]}:${F["color"]}`;
+}[FruitNames];
 
 type tests = [
   Expect<

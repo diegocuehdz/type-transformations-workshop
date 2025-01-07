@@ -1,5 +1,7 @@
 import { Equal, Expect } from "../helpers/type-utils";
 
+// In a discriminated union a there is the discrinminater
+
 type Route =
   | {
       route: "/";
@@ -12,7 +14,13 @@ type Route =
   | { route: "/admin"; search: {} }
   | { route: "/admin/users"; search: {} };
 
-type RoutesObject = unknown;
+type RoutesObject = {
+  [R in Route as R["route"]]: R["search"];
+};
+
+type RoutesObjectVariant = {
+  [R in Route["route"]]: Extract<Route, { route: R }>["search"];
+};
 
 type tests = [
   Expect<
