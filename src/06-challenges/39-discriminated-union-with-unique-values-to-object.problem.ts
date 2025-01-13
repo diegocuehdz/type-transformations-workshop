@@ -12,7 +12,18 @@ type Route =
   | { route: "/admin" }
   | { route: "/admin/users" };
 
-type RoutesObject = unknown;
+type RoutesObject = {
+  [K in Route as K["route"]]: K extends { search: infer P } ? P : never;
+};
+
+type RoutesObjectVariant = {
+  [K in Route as K["route"]]: K extends { search: unknown }
+    ? K["search"]
+    : never;
+};
+
+type example = RoutesObject;
+type exampleVariant = RoutesObjectVariant;
 
 type tests = [
   Expect<
